@@ -69,8 +69,8 @@ I believe that domain knowledge combined with analytical thinking creates better
 
 # 🛠️ Courses in Progress
 
-### 1. [Business Analysis Fundamentals - IIBA endorsed
-]([url](https://www.udemy.com/course/business-analysis-ba/?srsltid=AfmBOor9b33lszGYdYt4b5zqlu04hVxrQH1G9eh5vRwDoTKvLa2UYtIu))Created by: The BA Guide
+### 1. [Business Analysis Fundamentals - IIBA endorsed](https://www.udemy.com/course/business-analysis-ba/?srsltid=AfmBOor9b33lszGYdYt4b5zqlu04hVxrQH1G9eh5vRwDoTKvLa2UYtIu)
+Created by: The BA Guide
 Platform: Udemy
 
 #### Next Planned Course(s)
