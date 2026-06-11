@@ -5,61 +5,130 @@
 
 ---
 
-Who Am I:
+# 👋 Who Am I?
 
-I'm Jay Coetzee — based in Pretoria, South Africa. I've spent over a decade in the consumer electronics and IT industry, moving across retail, field technician, sales, and procurement roles. My current position at a South African e-tailer sits at the intersection of procurement, client care, sales, and operations — which means I live in spreadsheets, supplier data, and process gaps for a living.
+I'm Jay Coetzee, based in Midrand, South Africa.
 
-I'm completing a Bachelors of Commerce at Regent Business School (final exams June 2026), with majors in Business Intelligence, Business Management, & project Management.
+I've spent over a decade in the consumer electronics and IT industry, working across:
 
-This will serve as my portfolio and proof of work, not just coursework but all my steps to learning to become a Business Analyst whether it be artificial or real world based work.
+🛠️ Retail & Technical Support
+💼 Sales
+📦 Procurement
+🤝 Client Care
+🚚 Distribution
+
+My current role at a South African e-commerce company sits at the intersection of procurement, sales, operations, and customer service, meaning I spend my days working with supplier data, spreadsheets, pricing, marketplaces, and business process challenges.
+
+I am currently completing a Bachelor of Commerce at Regent Business School (expected completion: August 2026) with majors in:
+
+Business Intelligence
+Business Management
+Project Management
+
+This repository serves as both my portfolio and proof of work, documenting every step of my journey toward becoming a Business Analyst, whether through real-world projects or self-driven learning.
 
 ---
 
-Why Business Analysis?
+# 🎯 Why Business Analysis?
 
-I have worked in multiple fields within IT, Distribution, Insurance, and Retail. I have realized that multiple companies struggle with basic all the way to the highest of business related problems. Business Analytics is me teaching myself to become a person that can help companies solve their pain points as well as move forward to become more profitable in business. 
+Throughout my career in IT, Distribution, Insurance, Retail, and E-commerce, I've noticed that many companies struggle with problems that could be solved through better processes, data, and decision-making.
 
-My goal is a Business Analyst or Product Manager role where I can bridge operational context with structured thinking. I'm not coming from a pure tech background, and that's intentional: I bring domain knowledge (procurement, retail, marketplace, distribution, B2B & B2C behaviour) that most entry-level analysts don't have within the field.
+Business Analysis represents the intersection of technology, business, and problem solving.
+
+My goal is to become someone who can:
+
+Identify business pain points
+Improve operational efficiency
+Bridge the gap between business and technical teams
+Help organizations make better data-driven decisions
+Increase profitability through smarter processes
+
+I'm pursuing a Business Analyst (and eventually Product Manager) career because I enjoy understanding how businesses work and how they can work better.
+
+Unlike many entry-level analysts, I bring practical experience in:
+
+Procurement
+Retail Operations
+Distribution
+E-commerce
+Marketplace Management
+Supplier Relationships
+B2B & B2C Sales
+Client Care
+
+I believe that domain knowledge combined with analytical thinking creates better business solutions.
 
 
 ---
 
-Portfolio Projects
+# 📂 Portfolio Projects
 
-TBA
+### TBA - Projects Coming Soon
 
 ---
 
-Education
-Bachelors of Commerce in Business Intelligence and Project Management
-Regent Business School — Final year, 2026
-Major Subjects: Business Intelligence, Business Management, Project Management
-Minor Subject: Commercial Law, Business, Entrepreneurship, Information Systems, International Business.
+# 🛠️ Skills Currently Learning
+
+Business Analysis Fundamentals
+Requirements Gathering
+SQL
+Excel (Intermediate Level)
+Data Visualization
+Agile & Scrum
+User Stories
+Trello, Jira & Confluence
+Business Documentation
+Business Process Improvement
+
+---
+
+# Education
+
+🎓 Education
+
+## Bachelor of Commerce (Business Intelligence & Project Management)
+
+### Regent Business School
+### Expected Completion: 2026
+
+#### Major Subjects
+Business Intelligence
+Business Management
+Project Management
+
+#### Additional Subjects
+Commercial Law
+Entrepreneurship
+Information Systems
+International Business
 
 
-IT Academy Web & Graphics Course 
+### IT Academy Web & Graphics Course 
 2019
 
-C.O.P.A - Campus Of Performing Arts
-NQF4 in Sound Engineering 2012-2013
+### C.O.P.A - Campus Of Performing Arts
+NQF4 in Sound Engineering 
+2012-2013
 
-High School
-High School Centurion Class of 2010
+### High School
+High School Centurion 
+Class of 2010
 
+---
+# 📈 Current Goal
 
+My objective is to secure a Junior Business Analyst or Junior Data Analyst role where I can combine operational experience with analytical thinking to deliver measurable business value.
 
 ---
 
-Let's Connect
-
-I'm open to junior BA and data analyst opportunities in Gauteng(Mirand & Centurion area especially) or remote within South Africa.
+# 🤝 Let's Connect
 
 📍 Midrand, Gauteng
 
-🔗 LinkedIn (www.linkedin.com/in/jay-coetzee-76432b144)
+🔗 [LinkedIn](www.linkedin.com/in/jay-coetzee-76432b144) 
 
-📧 jayc2419@gmail.com
+📧 [jayc2419@gmail.com](mailto:jayc2419@gmail.com)
 
 ---
 
-This portfolio is a living document. Projects are added as they're completed, not polished retroactively.
+This portfolio is a living document. Projects are added as they're completed, not polished retrospectively.
