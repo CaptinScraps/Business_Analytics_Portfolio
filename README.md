@@ -67,11 +67,24 @@ I believe that domain knowledge combined with analytical thinking creates better
 
 ---
 
+# 🛠️ Courses in Progress
+
+### 1. [Business Analysis Fundamentals - IIBA endorsed
+]([url](https://www.udemy.com/course/business-analysis-ba/?srsltid=AfmBOor9b33lszGYdYt4b5zqlu04hVxrQH1G9eh5vRwDoTKvLa2UYtIu))Created by: The BA Guide
+Platform: Udemy
+
+#### Next Planned Course(s)
+
+##### 2.[ Agile Fundamentals: Including Scrum & Kanban](https://www.udemy.com/course/agile-fundamentals-scrum-kanban-scrumban/?srsltid=AfmBOopUZeOjVtP5BaE3iDIikxw-Eda7Degy747kwGroVoLjmtqpeZE9)
+
+
+---
+
 # 🛠️ Skills Currently Learning
 
 Business Analysis Fundamentals
 Requirements Gathering
-SQL
+SQL (PostgreSQL)
 Excel (Intermediate Level)
 Data Visualization
 Agile & Scrum
