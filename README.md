@@ -82,9 +82,7 @@ Business Process Improvement
 
 ---
 
-# Education
-
-🎓 Education
+# 🎓 Education
 
 ## Bachelor of Commerce (Business Intelligence & Project Management)
 
