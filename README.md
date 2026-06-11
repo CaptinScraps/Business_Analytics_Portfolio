@@ -53,8 +53,11 @@ High School Centurion Class of 2010
 Let's Connect
 
 I'm open to junior BA and data analyst opportunities in Gauteng(Mirand & Centurion area especially) or remote within South Africa.
+
 📍 Midrand, Gauteng
+
 🔗 LinkedIn (www.linkedin.com/in/jay-coetzee-76432b144)
+
 📧 jayc2419@gmail.com
 
 ---
