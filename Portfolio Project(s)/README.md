@@ -21,7 +21,8 @@ The project provided valuable hands-on experience in applying Business Analysis 
 Both projects form part of my learning journey as I transition into a Business Analyst career and demonstrate my commitment to developing practical, job-ready skills through independent study and portfolio development.
 
 Original link to Smart Cart project on [Notion](https://roasted-tumble-255.notion.site/SmartCart-Business-Analyst-Portfolio-Projectster-Index-27868714dcda800ebc9deec93e83c1e3)
-[Reddit Post](https://www.reddit.com/r/BusinessAnalystjobs/comments/1nodji6/free_business_analyst_portfolio/)
+
+And the link to the original [Reddit Post](https://www.reddit.com/r/BusinessAnalystjobs/comments/1nodji6/free_business_analyst_portfolio/)
 
 ---
 
