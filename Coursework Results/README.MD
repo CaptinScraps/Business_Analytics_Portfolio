@@ -1,6 +1,6 @@
 # 🎓 Academic and Coursework Certification
 
-**  This folder will serve as evidence of my academic journey and commitment to developing the knowledge and skills required for data-driven decision-making and business improvement. **
+__This folder will serve as evidence of my academic journey and commitment to developing the knowledge and skills required for data-driven decision-making and business improvement.__
 
 ---
 
