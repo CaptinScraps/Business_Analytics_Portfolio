@@ -1,6 +1,8 @@
-This folder will serve as evidence of my academic journey and commitment to developing the knowledge and skills required for data-driven decision-making and business improvement.
+# This folder will serve as evidence of my academic journey and commitment to developing the knowledge and skills required for data-driven decision-making and business improvement.
 
-Year 1 & 2 + Year 3 Semester 1 Academic Results
+---
+
+## Year 1 & 2 + Year 3 Semester 1 Academic Results
 
 This image contains my academic results for Years 1 and 2, along with my Semester 1 results for my final year (Year 3) of study.
 
