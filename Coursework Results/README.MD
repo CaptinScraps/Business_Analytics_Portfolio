@@ -9,7 +9,7 @@ This image contains my academic results for Years 1 and 2, along with my Semeste
 The transcript provides an overview of my academic performance and demonstrates my progress throughout my degree, particularly in modules related to Business Intelligence, Project Management, and Business Management. These subjects have strengthened my analytical thinking, problem-solving abilities, and understanding of business processes, all of which form a strong foundation for a career in Business Analysis.
 
 
-# Course Mastery Certtification in Web & Graphics
+## Course Mastery Certtification in Web & Graphics
 
 This certificate represents the successful completion of a comprehensive training program covering web development fundamentals, content management systems, programming concepts, and graphic design tools.
 
