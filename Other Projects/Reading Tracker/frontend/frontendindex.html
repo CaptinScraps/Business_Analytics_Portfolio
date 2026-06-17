@@ -1,0 +1,2053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RT AppS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ── RESET & BASE ─────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #07070e;
+  --surface:   #0f0f1d;
+  --surface-2: #16162b;
+  --surface-3: #1e1e38;
+  --border:    rgba(255,255,255,0.07);
+  --accent:    #e91e8c;
+  --accent-2:  #7c3aed;
+  --cyan:      #22d3ee;
+  --gold:      #f59e0b;
+  --text:      #eeeef8;
+  --muted:     #5a5a7a;
+  --muted-2:   #3a3a5a;
+  --glow:      rgba(233,30,140,0.35);
+  --glow-2:    rgba(124,58,237,0.3);
+  --font-display: 'Unbounded', sans-serif;
+  --font-body:    'Outfit', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+  --radius:    14px;
+  --card-w:    190px;
+  --card-h:    285px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent-2); border-radius: 99px; }
+
+/* ── HEADER ───────────────────────────────────── */
+header {
+  position: relative;
+  overflow: hidden;
+  padding: 42px 40px 36px;
+  text-align: center;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Aurora mesh */
+header::before {
+  content: '';
+  position: absolute;
+  inset: -60px;
+  background:
+    radial-gradient(ellipse 70% 80% at 20% 50%, rgba(233,30,140,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 70% at 80% 40%, rgba(124,58,237,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 50% 100%, rgba(34,211,238,0.1) 0%, transparent 55%);
+  filter: blur(30px);
+  animation: aurora 8s ease-in-out infinite alternate;
+}
+
+/* Noise grain overlay */
+header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+@keyframes aurora {
+  0%   { transform: scale(1) rotate(0deg); }
+  100% { transform: scale(1.1) rotate(5deg); }
+}
+
+.header-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 900;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, #fff 0%, var(--accent) 50%, var(--accent-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.logo-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+/* Stats row */
+.stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 22px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.stat-num {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.stat-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── TABS ─────────────────────────────────────── */
+.tabs-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 20px 40px 0;
+  gap: 6px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.tab-btn {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  padding: 10px 28px 16px;
+  cursor: pointer;
+  transition: color 0.25s;
+}
+
+.tab-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 2px;
+  width: 0;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 0 10px var(--glow);
+}
+
+.tab-btn.active {
+  color: var(--text);
+}
+
+.tab-btn.active::after {
+  width: 100%;
+}
+
+/* ── CONTROLS BAR ─────────────────────────────── */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 32px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.search-wrap input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-wrap input:focus {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.15);
+}
+
+.search-wrap input::placeholder { color: var(--muted); }
+
+.filter-select {
+  padding: 10px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  appearance: none;
+  padding-right: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%235a5a7a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.filter-select:focus { border-color: var(--accent-2); }
+.filter-select option { background: var(--surface-2); }
+
+.sort-select {
+  padding: 10px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  padding-right: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%235a5a7a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  transition: border-color 0.2s;
+}
+
+.sort-select:focus { border-color: var(--accent-2); }
+.sort-select option { background: var(--surface-2); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-ghost {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.btn-ghost:hover {
+  border-color: var(--accent-2);
+  color: var(--accent-2);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: white;
+  box-shadow: 0 4px 20px var(--glow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 28px var(--glow);
+}
+
+/* ── EMPTY STATE ──────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  gap: 14px;
+  color: var(--muted);
+}
+
+.empty-icon {
+  font-size: 56px;
+  opacity: 0.4;
+}
+
+.empty-label {
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ── GRID ─────────────────────────────────────── */
+.grid-section {
+  padding: 28px 32px 60px;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, var(--card-w));
+  gap: 22px;
+}
+
+/* ── CARD ─────────────────────────────────────── */
+.card {
+  width: var(--card-w);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.34,1.2,0.64,1), box-shadow 0.3s;
+  animation: fadeUp 0.5s both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 30px var(--glow-2);
+  border-color: rgba(124,58,237,0.4);
+}
+
+.card-img-wrap {
+  position: relative;
+  width: 100%;
+  height: var(--card-h);
+  overflow: hidden;
+  background: var(--surface-3);
+}
+
+.card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  display: block;
+}
+
+.card:hover .card-img-wrap img {
+  transform: scale(1.06);
+}
+
+/* Bottom gradient overlay (always visible) */
+.card-img-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 65%;
+  background: linear-gradient(to top, rgba(7,7,14,0.97) 0%, rgba(7,7,14,0.5) 50%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Placeholder for missing image */
+.img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--muted-2);
+  font-size: 36px;
+  background: linear-gradient(135deg, var(--surface-2), var(--surface-3));
+}
+
+.img-placeholder span {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  color: var(--muted);
+}
+
+/* Rating badge */
+.rating-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.rating-sss {
+  background: linear-gradient(135deg, rgba(245,158,11,0.9), rgba(233,30,140,0.9));
+  color: white;
+  box-shadow: 0 0 14px rgba(245,158,11,0.5);
+}
+
+.rating-ss {
+  background: rgba(233,30,140,0.85);
+  color: white;
+  box-shadow: 0 0 10px rgba(233,30,140,0.4);
+}
+
+.rating-s {
+  background: rgba(124,58,237,0.85);
+  color: white;
+  box-shadow: 0 0 10px rgba(124,58,237,0.4);
+}
+
+.rating-a {
+  background: rgba(34,211,238,0.8);
+  color: #07070e;
+  box-shadow: 0 0 10px rgba(34,211,238,0.3);
+}
+
+.rating-b {
+  background: rgba(34,197,94,0.8);
+  color: #07070e;
+}
+
+.rating-default {
+  background: rgba(255,255,255,0.1);
+  color: var(--text);
+}
+
+/* Card info (over gradient) */
+.card-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 14px 12px 12px;
+  z-index: 2;
+}
+
+.card-title {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-progress-bar {
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.card-progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width 0.8s ease;
+}
+
+.card-progress-text {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+/* Hover overlay with actions */
+.card-hover-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(7,7,14,0.88);
+  backdrop-filter: blur(2px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 10;
+  border-radius: var(--radius);
+}
+
+.card:hover .card-hover-overlay {
+  opacity: 1;
+}
+
+.overlay-btn {
+  width: 150px;
+  padding: 9px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
+
+.overlay-btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: white;
+}
+
+.overlay-btn-primary:hover {
+  transform: scale(1.04);
+  box-shadow: 0 4px 18px var(--glow);
+}
+
+.overlay-btn-ghost {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--text);
+}
+
+.overlay-btn-ghost:hover {
+  background: rgba(255,255,255,0.14);
+}
+
+.overlay-btn-danger {
+  background: rgba(239,68,68,0.15);
+  border: 1px solid rgba(239,68,68,0.3);
+  color: #f87171;
+}
+
+.overlay-btn-danger:hover {
+  background: rgba(239,68,68,0.25);
+}
+
+/* Status dot */
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.status-ongoing   { background: var(--cyan); box-shadow: 0 0 6px var(--cyan); }
+.status-completed { background: #4ade80; box-shadow: 0 0 6px #4ade80; }
+.status-dropped   { background: #f87171; box-shadow: 0 0 6px #f87171; }
+.status-uptodate  { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
+
+/* ── MODAL ────────────────────────────────────── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-backdrop.open {
+  display: flex;
+}
+
+.modal-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  width: 100%;
+  max-width: 460px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.7), 0 0 60px rgba(124,58,237,0.1);
+  animation: modalIn 0.3s cubic-bezier(0.34,1.2,0.64,1);
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.92) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 22px 22px 0;
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+  flex: 1;
+  padding-right: 12px;
+}
+
+.modal-close {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.modal-close:hover {
+  background: rgba(239,68,68,0.15);
+  border-color: rgba(239,68,68,0.3);
+  color: #f87171;
+}
+
+.modal-body {
+  padding: 18px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Form elements */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.form-input {
+  padding: 10px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+}
+
+.form-input:focus {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.14);
+}
+
+.form-input::placeholder { color: var(--muted); }
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.5;
+}
+
+.form-select {
+  padding: 10px 32px 10px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  width: 100%;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%235a5a7a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  transition: border-color 0.2s;
+}
+
+.form-select:focus { border-color: var(--accent-2); }
+.form-select option { background: var(--surface-2); }
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.modal-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 2px 0;
+}
+
+/* Synopsis display in view modal */
+.synopsis-box {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+  min-height: 60px;
+  font-style: italic;
+}
+
+/* Inline stat grid in view modal */
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.stat-chip {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.stat-chip-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.stat-chip-value {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* ── TOAST ────────────────────────────────────── */
+.toast-wrap {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--text);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  animation: toastIn 0.3s ease;
+  min-width: 220px;
+  max-width: 320px;
+}
+
+.toast-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── LOADING SKELETON ─────────────────────────── */
+.skeleton {
+  animation: shimmer 1.4s infinite;
+  background: linear-gradient(90deg, var(--surface-2) 0%, var(--surface-3) 50%, var(--surface-2) 100%);
+  background-size: 200% 100%;
+  border-radius: var(--radius);
+  width: var(--card-w);
+  height: calc(var(--card-h) + 40px);
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── EXPORT DROPDOWN ──────────────────────────── */
+.export-wrap {
+  position: relative;
+}
+
+.export-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  min-width: 210px;
+  z-index: 500;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.6), 0 0 20px rgba(124,58,237,0.08);
+  animation: modalIn 0.2s cubic-bezier(0.34,1.2,0.64,1);
+}
+
+.export-menu.open { display: block; }
+
+.export-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 16px;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+  border-bottom: 1px solid var(--border);
+}
+
+.export-menu-item:last-child { border-bottom: none; }
+
+.export-menu-item:hover {
+  background: var(--surface-3);
+  color: var(--accent);
+}
+
+.export-menu-section {
+  padding: 6px 16px 4px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── IMPORT MODAL ─────────────────────────────── */
+.drop-zone {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 36px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  background: var(--surface-2);
+}
+
+.drop-zone:hover, .drop-zone.dragover {
+  border-color: var(--accent-2);
+  background: rgba(124,58,237,0.06);
+}
+
+.drop-zone-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+  opacity: 0.7;
+}
+
+.drop-zone-label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.drop-zone-sub {
+  font-size: 11px;
+  color: var(--muted-2);
+}
+
+.drop-zone-sub span {
+  color: var(--accent-2);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Import preview table */
+.import-preview {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.import-preview.visible { display: flex; }
+
+.import-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(124,58,237,0.1);
+  border: 1px solid rgba(124,58,237,0.2);
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.import-summary-count {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--accent-2);
+}
+
+.import-table-wrap {
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.import-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.import-table th {
+  position: sticky;
+  top: 0;
+  background: var(--surface-3);
+  padding: 8px 10px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.import-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: var(--text);
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.import-table tr:last-child td { border-bottom: none; }
+
+.import-table tr:hover td { background: rgba(255,255,255,0.03); }
+
+.import-error {
+  padding: 10px 14px;
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 8px;
+  font-size: 12px;
+  color: #f87171;
+}
+
+.import-progress-bar {
+  height: 4px;
+  background: var(--surface-3);
+  border-radius: 99px;
+  overflow: hidden;
+  display: none;
+}
+
+.import-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border-radius: 99px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+.btn-teal {
+  background: linear-gradient(135deg, #0891b2, #0e7490);
+  color: white;
+}
+
+.btn-teal:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px rgba(8,145,178,0.35);
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo">Reading Tracker</div>
+    <div class="logo-sub">Reading Catalogue &amp; Tracker</div>
+    <div class="stats-row" id="statsRow">
+      <div class="stat">
+        <div class="stat-num" id="statTotal">—</div>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" style="color:var(--cyan)" id="statOngoing">—</div>
+        <div class="stat-label">Reading</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" style="color:#4ade80" id="statCompleted">—</div>
+        <div class="stat-label">Completed</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" style="color:#f87171" id="statDropped">—</div>
+        <div class="stat-label">Dropped</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <button class="tab-btn active" id="tab-novel" onclick="setTab('novel')">Novels</button>
+  <button class="tab-btn" id="tab-comic" onclick="setTab('comic')">Comics</button>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input id="search" placeholder="Search titles…" oninput="load()">
+  </div>
+  <select class="filter-select" id="ratingFilter" onchange="load()">
+    <option value="">All Ratings</option>
+    <option>SSS</option><option>SS</option><option>S</option>
+    <option>A</option><option>B</option><option>C</option>
+    <option>D</option><option>E</option><option>F</option>
+  </select>
+  <select class="sort-select" id="sortFilter" onchange="load()">
+    <option value="updated">Recently Updated</option>
+    <option value="title">Title A–Z</option>
+    <option value="rating">By Rating</option>
+    <option value="progress">By Progress</option>
+  </select>
+  <button class="btn btn-primary" onclick="openAddModal()">＋ Add</button>
+  <button class="btn btn-teal" onclick="openImportModal()">⬆ Import</button>
+  <div class="export-wrap">
+    <button class="btn btn-ghost" onclick="toggleExportMenu(event)" id="exportToggleBtn">⬇ Export ▾</button>
+    <div class="export-menu" id="exportMenu">
+      <div class="export-menu-section">JSON</div>
+      <button class="export-menu-item" onclick="exportJSON('all');toggleExportMenu()">📦 All Entries</button>
+      <button class="export-menu-item" onclick="exportJSON('novel');toggleExportMenu()">📖 Novels Only</button>
+      <button class="export-menu-item" onclick="exportJSON('comic');toggleExportMenu()">🎌 Comics Only</button>
+      <div class="export-menu-section">CSV — Data Analysis</div>
+      <button class="export-menu-item" onclick="exportCSV('all');toggleExportMenu()">📊 All Entries (CSV)</button>
+      <button class="export-menu-item" onclick="exportCSV('novel');toggleExportMenu()">📊 Novels (CSV)</button>
+      <button class="export-menu-item" onclick="exportCSV('comic');toggleExportMenu()">📊 Comics (CSV)</button>
+      <div class="export-menu-section">Templates</div>
+      <button class="export-menu-item" onclick="downloadTemplate('json');toggleExportMenu()">📋 JSON Template</button>
+      <button class="export-menu-item" onclick="downloadTemplate('csv');toggleExportMenu()">📋 CSV Template</button>
+    </div>
+  </div>
+</div>
+
+<!-- GRID -->
+<div class="grid-section">
+  <div class="section-label" id="sectionLabel">Loading…</div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- ════════════════════════════════════════
+     EDIT MODAL — FULL ENTRY EDITOR
+════════════════════════════════════════ -->
+<div class="modal-backdrop" id="editModal">
+  <div class="modal-box" style="max-width:520px">
+    <div class="modal-header">
+      <div class="modal-title" id="editModalTitle">—</div>
+      <button class="modal-close" onclick="closeModal('editModal')">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Cover preview -->
+      <div id="editCoverPreview" style="width:100%;height:160px;border-radius:10px;overflow:hidden;background:var(--surface-3);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;margin-bottom:2px;">
+        No cover
+      </div>
+
+      <!-- Title -->
+      <div class="form-group">
+        <label class="form-label">Title *</label>
+        <input class="form-input" id="editTitle" placeholder="Title…">
+      </div>
+
+      <!-- Type + Subtype -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Type</label>
+          <select class="form-select" id="editType">
+            <option value="novel">Novel</option>
+            <option value="comic">Comic</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subtype</label>
+          <input class="form-input" id="editSubtype" placeholder="Manhwa, LN…">
+        </div>
+      </div>
+
+      <!-- Progress type + Status -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Progress Type</label>
+          <select class="form-select" id="editProgressType">
+            <option value="chapters">Chapters</option>
+            <option value="pages">Pages</option>
+            <option value="volumes">Volumes</option>
+            <option value="episodes">Episodes</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="editStatus">
+            <option value="ongoing">Ongoing</option>
+            <option value="up_to_date">Up to Date</option>
+            <option value="completed">Completed</option>
+            <option value="dropped">Dropped</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Progress + Total -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Progress</label>
+          <input class="form-input" type="number" id="editProgress" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Total</label>
+          <input class="form-input" type="number" id="editTotal" placeholder="0">
+        </div>
+      </div>
+
+      <!-- Rating + Subtype tag -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Rating</label>
+          <input class="form-input" id="editRating" placeholder="SSS, A+, B-…">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subtype Tag</label>
+          <input class="form-input" id="editSubtag" placeholder="Isekai, Wuxia…">
+        </div>
+      </div>
+
+      <!-- Cover image URL -->
+      <div class="form-group">
+        <label class="form-label">Cover Image URL</label>
+        <input class="form-input" id="editImage" placeholder="https://…" oninput="previewEditCover(this.value)">
+      </div>
+
+      <!-- Source URL -->
+      <div class="form-group">
+        <label class="form-label">Source URL</label>
+        <input class="form-input" id="editURL" placeholder="https://…">
+      </div>
+
+      <!-- Synopsis -->
+      <div class="form-group">
+        <label class="form-label">Synopsis</label>
+        <textarea class="form-input form-textarea" id="editSynopsis" placeholder="Short description…"></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary" style="flex:1" onclick="saveEdit()">💾 Save All Changes</button>
+        <button class="btn btn-ghost" onclick="closeModal('editModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     ADD MODAL
+════════════════════════════════════════ -->
+<div class="modal-backdrop" id="addModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">Add New Entry</div>
+      <button class="modal-close" onclick="closeModal('addModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Title *</label>
+        <input class="form-input" id="newTitle" placeholder="Enter title…">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Type</label>
+          <select class="form-select" id="newType">
+            <option value="novel">Novel</option>
+            <option value="comic">Comic</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subtype</label>
+          <input class="form-input" id="newSubtype" placeholder="e.g. Manhwa, LN…">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Progress Type</label>
+          <select class="form-select" id="newProgressType">
+            <option value="chapters">Chapters</option>
+            <option value="pages">Pages</option>
+            <option value="volumes">Volumes</option>
+            <option value="episodes">Episodes</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select class="form-select" id="newStatus">
+            <option value="ongoing">Ongoing</option>
+            <option value="up_to_date">Up to Date</option>
+            <option value="completed">Completed</option>
+            <option value="dropped">Dropped</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Progress</label>
+          <input class="form-input" type="number" id="newProgress" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Total</label>
+          <input class="form-input" type="number" id="newTotal" placeholder="0">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Rating</label>
+          <input class="form-input" id="newRating" placeholder="SSS, A+, B…">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subtype tag</label>
+          <input class="form-input" id="newSubtag" placeholder="e.g. Isekai, Wuxia…">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Cover Image URL</label>
+        <input class="form-input" id="newImage" placeholder="https://…">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Source URL</label>
+        <input class="form-input" id="newURL" placeholder="https://…">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Synopsis</label>
+        <textarea class="form-input form-textarea" id="newSynopsis" placeholder="Short description…"></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary" style="flex:1" onclick="createItem()">Add to Catalogue</button>
+        <button class="btn btn-ghost" onclick="closeModal('addModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     IMPORT MODAL
+════════════════════════════════════════ -->
+<div class="modal-backdrop" id="importModal">
+  <div class="modal-box" style="max-width:540px">
+    <div class="modal-header">
+      <div class="modal-title">⬆ Bulk Import</div>
+      <button class="modal-close" onclick="closeModal('importModal')">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Drop zone -->
+      <div class="drop-zone" id="dropZone"
+           onclick="document.getElementById('importFileInput').click()"
+           ondragover="handleDragOver(event)"
+           ondragleave="handleDragLeave(event)"
+           ondrop="handleDrop(event)">
+        <div class="drop-zone-icon">📂</div>
+        <div class="drop-zone-label">Drop your file here</div>
+        <div class="drop-zone-sub">JSON or CSV &nbsp;·&nbsp; <span>browse files</span></div>
+      </div>
+      <input type="file" id="importFileInput" accept=".json,.csv" style="display:none"
+             onchange="handleFileSelect(this.files[0])">
+
+      <!-- Error -->
+      <div class="import-error" id="importError" style="display:none"></div>
+
+      <!-- Preview -->
+      <div class="import-preview" id="importPreview">
+        <div class="import-summary">
+          <div class="import-summary-count" id="importCount">0</div>
+          <div style="font-size:13px;color:var(--muted)">entries ready to import</div>
+          <button class="btn btn-ghost" style="margin-left:auto;padding:6px 12px;font-size:12px" onclick="clearImport()">✕ Clear</button>
+        </div>
+        <div class="import-table-wrap">
+          <table class="import-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Subtype</th>
+                <th>Rating</th>
+                <th>Progress</th>
+              </tr>
+            </thead>
+            <tbody id="importTableBody"></tbody>
+          </table>
+        </div>
+        <div class="import-progress-bar" id="importProgressBar">
+          <div class="import-progress-fill" id="importProgressFill"></div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">
+          ℹ Existing entries are not duplicated — title + type are checked before inserting.
+          Missing fields will use sensible defaults.
+        </div>
+      </div>
+
+      <div class="modal-actions" style="padding-top:0">
+        <button class="btn btn-primary" style="flex:1" id="importConfirmBtn"
+                onclick="confirmImport()" disabled>Import Entries</button>
+        <button class="btn btn-ghost" onclick="closeModal('importModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = "http://localhost:3000/items";
+let currentTab = 'novel';
+let allData = [];
+let editingId = null;
+const itemMap = {};
+
+/* ── TAB ───────────────────────────────────── */
+function setTab(tab) {
+  currentTab = tab;
+  ['novel','comic'].forEach(t => {
+    document.getElementById('tab-'+t).classList.toggle('active', t === tab);
+  });
+  load();
+}
+
+/* ── RATING BADGE ──────────────────────────── */
+function ratingBadge(r) {
+  if (!r) return '';
+  const s = r.toUpperCase();
+  let cls = 'rating-default';
+  if (s.includes('SSS')) cls = 'rating-sss';
+  else if (s.includes('SS')) cls = 'rating-ss';
+  else if (s.startsWith('S'))  cls = 'rating-s';
+  else if (s.startsWith('A'))  cls = 'rating-a';
+  else if (s.startsWith('B'))  cls = 'rating-b';
+  return `<div class="rating-badge ${cls}">${r}</div>`;
+}
+
+/* ── STATUS ────────────────────────────────── */
+function statusDot(status) {
+  const map = {
+    completed: ['status-completed', 'Completed'],
+    dropped:   ['status-dropped',   'Dropped'],
+    up_to_date:['status-uptodate',  'Up to Date'],
+  };
+  const [cls, label] = map[status] || ['status-ongoing', 'Ongoing'];
+  return `<span class="status-dot ${cls}"></span>${label}`;
+}
+
+/* ── SORT ──────────────────────────────────── */
+const RATING_ORDER = { 'SSS':0,'SS+':1,'SS':2,'SS-':3,'S+':4,'S':5,'S-':6,'A+':7,'A':8,'A-':9,'B+':10,'B':11,'B-':12,'C+':13,'C':14,'C-':15,'D+':16,'D':17,'D-':18,'E+':19,'E':20,'E-':21,'F':22 };
+function ratingRank(r) { return RATING_ORDER[r?.toUpperCase()] ?? 99; }
+
+/* ── LOAD ──────────────────────────────────── */
+async function load() {
+  const grid = document.getElementById('grid');
+
+  // Show skeletons
+  grid.innerHTML = Array(8).fill(0).map(() => `<div class="skeleton"></div>`).join('');
+
+  try {
+    const res = await fetch(API);
+    allData = await res.json();
+    allData.forEach(i => { itemMap[i.id] = i; });
+  } catch(e) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+      <div class="empty-icon">⚠</div>
+      <div class="empty-label">Cannot connect to server</div>
+    </div>`;
+    return;
+  }
+
+  const search = document.getElementById('search').value.toLowerCase();
+  const rating = document.getElementById('ratingFilter').value;
+  const sort   = document.getElementById('sortFilter').value;
+
+  let data = allData.filter(i => i.content_type === currentTab);
+  if (search) data = data.filter(i => i.title.toLowerCase().includes(search));
+  if (rating) data = data.filter(i => (i.rating || '').toUpperCase().includes(rating.toUpperCase()));
+
+  if (sort === 'title')    data.sort((a,b) => a.title.localeCompare(b.title));
+  if (sort === 'rating')   data.sort((a,b) => ratingRank(a.rating) - ratingRank(b.rating));
+  if (sort === 'progress') data.sort((a,b) => b.progress - a.progress);
+
+  // Update stats
+  const all = allData.filter(i => i.content_type === currentTab);
+  document.getElementById('statTotal').textContent     = all.length;
+  document.getElementById('statOngoing').textContent   = all.filter(i => i.status === 'ongoing' || !i.status).length;
+  document.getElementById('statCompleted').textContent = all.filter(i => i.status === 'completed' || i.status === 'up_to_date').length;
+  document.getElementById('statDropped').textContent   = all.filter(i => i.status === 'dropped').length;
+
+  const label = document.getElementById('sectionLabel');
+  label.textContent = `${data.length} ${currentTab === 'novel' ? 'Novel' : 'Comic'}${data.length !== 1 ? 's' : ''}`;
+
+  grid.innerHTML = '';
+
+  if (!data.length) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+      <div class="empty-icon">📚</div>
+      <div class="empty-label">Nothing here yet</div>
+    </div>`;
+    return;
+  }
+
+  data.forEach((item, idx) => {
+    const pct = item.total ? Math.min(100, (item.progress / item.total) * 100) : 0;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.animationDelay = `${idx * 40}ms`;
+
+    const imgContent = item.image_url
+      ? `<img src="${item.image_url}" alt="${item.title}" onerror="this.parentElement.innerHTML='<div class=\\'img-placeholder\\'><span>📚</span><span>No Cover</span></div>'">`
+      : `<div class="img-placeholder">📚<span>No Cover</span></div>`;
+
+    card.innerHTML = `
+      <div class="card-img-wrap">
+        ${imgContent}
+        ${ratingBadge(item.rating)}
+        <div class="card-info">
+          <div class="card-title">${item.title}</div>
+          <div class="card-progress-bar">
+            <div class="card-progress-fill" style="width:${pct}%"></div>
+          </div>
+          <div class="card-progress-text">${item.progress ?? 0}${item.total ? ' / ' + item.total : ''} ${item.progress_type ?? ''}</div>
+        </div>
+      </div>
+      <div class="card-hover-overlay">
+        <button class="overlay-btn overlay-btn-primary" onclick="event.stopPropagation();openEditModal(${item.id})">✏ Edit Entry</button>
+        <a href="${item.source_url || '#'}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+          <button class="overlay-btn overlay-btn-ghost" ${!item.source_url ? 'disabled style="opacity:.4"' : ''}>↗ Open Source</button>
+        </a>
+        <button class="overlay-btn overlay-btn-danger" onclick="event.stopPropagation();deleteItem(${item.id})">✕ Remove</button>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+}
+
+/* ── OPEN EDIT MODAL ───────────────────────── */
+function previewEditCover(url) {
+  const el = document.getElementById('editCoverPreview');
+  if (url && url.trim()) {
+    el.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;border-radius:10px"
+      onerror="this.parentElement.innerHTML='<span style=\\'color:var(--muted);font-size:13px\\'>Invalid URL or image failed to load</span>'">`;
+  } else {
+    el.innerHTML = '<span style="color:var(--muted);font-size:13px">No cover</span>';
+  }
+}
+
+function openEditModal(id) {
+  const item = itemMap[id];
+  if (!item) return;
+  editingId = item.id;
+
+  document.getElementById('editModalTitle').textContent = item.title;
+
+  // Populate all fields
+  document.getElementById('editTitle').value        = item.title        ?? '';
+  document.getElementById('editType').value         = item.content_type ?? 'novel';
+  document.getElementById('editSubtype').value      = item.subtype      ?? '';
+  document.getElementById('editSubtag').value       = item.subtype_tag  ?? '';
+  document.getElementById('editProgressType').value = item.progress_type ?? 'chapters';
+  document.getElementById('editProgress').value     = item.progress     ?? '';
+  document.getElementById('editTotal').value        = item.total        ?? '';
+  document.getElementById('editRating').value       = item.rating       ?? '';
+  document.getElementById('editStatus').value       = item.status       ?? 'ongoing';
+  document.getElementById('editImage').value        = item.image_url    ?? '';
+  document.getElementById('editURL').value          = item.source_url   ?? '';
+  document.getElementById('editSynopsis').value     = item.synopsis     ?? '';
+
+  // Show cover preview
+  previewEditCover(item.image_url);
+
+  document.getElementById('editModal').classList.add('open');
+}
+
+async function saveEdit() {
+  if (!editingId) return;
+  const title = document.getElementById('editTitle').value.trim();
+  if (!title) { showToast('⚠', 'Title cannot be empty'); return; }
+
+  const payload = {
+    title,
+    content_type:  document.getElementById('editType').value,
+    subtype:       document.getElementById('editSubtype').value,
+    subtype_tag:   document.getElementById('editSubtag').value,
+    progress_type: document.getElementById('editProgressType').value,
+    progress:      parseInt(document.getElementById('editProgress').value) || 0,
+    total:         parseInt(document.getElementById('editTotal').value)    || 0,
+    rating:        document.getElementById('editRating').value,
+    status:        document.getElementById('editStatus').value,
+    image_url:     document.getElementById('editImage').value,
+    source_url:    document.getElementById('editURL').value,
+    synopsis:      document.getElementById('editSynopsis').value,
+  };
+
+  try {
+    const res = await fetch(`${API}/${editingId}`, {
+      method: 'PUT',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    const saved = await res.json();
+
+    if (itemMap[editingId]) {
+      Object.assign(itemMap[editingId], payload);
+      if (saved && saved.id) Object.assign(itemMap[editingId], saved);
+    }
+
+    closeModal('editModal');
+    showToast('✅', `"${title}" updated`);
+    load();
+  } catch (err) {
+    console.error('[saveEdit] error:', err);
+    showToast('⚠', 'Save failed — check console');
+  }
+}
+
+/* ── ADD MODAL ─────────────────────────────── */
+function openAddModal() {
+  ['newTitle','newSubtype','newProgress','newTotal','newRating','newSubtag','newImage','newURL','newSynopsis']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  document.getElementById('addModal').classList.add('open');
+}
+
+async function createItem() {
+  const title = document.getElementById('newTitle').value.trim();
+  if (!title) { showToast('⚠', 'Title is required'); return; }
+
+  await fetch(API, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      title,
+      content_type:   document.getElementById('newType').value,
+      subtype:        document.getElementById('newSubtype').value,
+      progress_type:  document.getElementById('newProgressType').value,
+      progress:       document.getElementById('newProgress').value || 0,
+      total:          document.getElementById('newTotal').value || 0,
+      rating:         document.getElementById('newRating').value,
+      image_url:      document.getElementById('newImage').value,
+      source_url:     document.getElementById('newURL').value,
+      synopsis:       document.getElementById('newSynopsis').value,
+    })
+  });
+
+  closeModal('addModal');
+  showToast('📚', 'Added to catalogue');
+  load();
+}
+
+/* ── DELETE ────────────────────────────────── */
+async function deleteItem(id) {
+  if (!confirm('Remove this entry from your catalogue?')) return;
+  await fetch(`${API}/${id}`, { method: 'DELETE' });
+  showToast('🗑', 'Entry removed');
+  load();
+}
+
+/* ── MODAL HELPERS ─────────────────────────── */
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+window.addEventListener('click', e => {
+  if (e.target.classList.contains('modal-backdrop')) {
+    e.target.classList.remove('open');
+  }
+});
+
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-backdrop.open').forEach(m => m.classList.remove('open'));
+  }
+});
+
+/* ── TOAST ─────────────────────────────────── */
+function showToast(icon, msg) {
+  const wrap = document.getElementById('toastWrap');
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.innerHTML = `<span class="toast-icon">${icon}</span><span>${msg}</span>`;
+  wrap.appendChild(t);
+  setTimeout(() => t.remove(), 3200);
+}
+
+/* ── EXPORT ────────────────────────────────── */
+function toggleExportMenu(e) {
+  if (e) e.stopPropagation();
+  document.getElementById('exportMenu').classList.toggle('open');
+}
+
+// Close export menu when clicking outside
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('exportMenu');
+  const btn  = document.getElementById('exportToggleBtn');
+  if (menu && !menu.contains(e.target) && e.target !== btn) {
+    menu.classList.remove('open');
+  }
+});
+
+function getExportData(scope) {
+  if (scope === 'novel')  return allData.filter(i => i.content_type === 'novel');
+  if (scope === 'comic')  return allData.filter(i => i.content_type === 'comic');
+  return allData; // 'all'
+}
+
+function triggerDownload(content, filename, mimeType) {
+  const blob = new Blob([content], { type: mimeType });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportJSON(scope) {
+  const data = getExportData(scope);
+  if (!data.length) { showToast('⚠', 'No entries to export'); return; }
+  const payload = {
+    exported_at: new Date().toISOString(),
+    scope,
+    count: data.length,
+    entries: data
+  };
+  const stamp = new Date().toISOString().slice(0,10);
+  triggerDownload(JSON.stringify(payload, null, 2), `rtapps_${scope}_${stamp}.json`, 'application/json');
+  showToast('⬇', `Exported ${data.length} entries as JSON`);
+}
+
+function exportCSV(scope) {
+  const data = getExportData(scope);
+  if (!data.length) { showToast('⚠', 'No entries to export'); return; }
+
+  const COLS = [
+    'id','title','content_type','subtype','subtype_tag','progress_type',
+    'progress','total','rating','status',
+    'source_url','image_url','synopsis',
+    'started_at','last_read_at','created_at','updated_at'
+  ];
+
+  const escape = v => {
+    if (v == null) return '';
+    const s = String(v);
+    return s.includes(',') || s.includes('"') || s.includes('\n')
+      ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+
+  const rows = [
+    COLS.join(','),
+    ...data.map(row => COLS.map(c => escape(row[c])).join(','))
+  ];
+
+  const stamp = new Date().toISOString().slice(0,10);
+  triggerDownload(rows.join('\r\n'), `rtapps_${scope}_${stamp}.csv`, 'text/csv');
+  showToast('📊', `Exported ${data.length} entries as CSV`);
+}
+
+function downloadTemplate(fmt) {
+  if (fmt === 'json') {
+    const template = {
+      "_note": "Remove this _note field. Each entry below is one item. Only 'title' and 'content_type' are required.",
+      "entries": [
+        {
+          "title": "Solo Leveling",
+          "content_type": "comic",
+          "subtype": "Manhwa",
+          "subtype_tag": "Action",
+          "progress_type": "chapters",
+          "progress": 179,
+          "total": 179,
+          "rating": "SSS",
+          "status": "completed",
+          "source_url": "https://example.com",
+          "image_url": "https://example.com/cover.jpg",
+          "synopsis": "A short description of the story."
+        },
+        {
+          "title": "The Beginning After the End",
+          "content_type": "novel",
+          "subtype": "Web Novel",
+          "subtype_tag": "Fantasy",
+          "progress_type": "chapters",
+          "progress": 420,
+          "total": 550,
+          "rating": "SS+",
+          "status": "ongoing",
+          "source_url": "",
+          "image_url": "",
+          "synopsis": ""
+        }
+      ]
+    };
+    triggerDownload(JSON.stringify(template, null, 2), 'rtapps_import_template.json', 'application/json');
+  } else {
+    const header = 'title,content_type,subtype,subtype_tag,progress_type,progress,total,rating,status,source_url,image_url,synopsis';
+    const rows = [
+      header,
+      'Solo Leveling,comic,Manhwa,Action,chapters,179,179,SSS,completed,https://example.com,https://example.com/cover.jpg,A great story.',
+      'The Beginning After the End,novel,Web Novel,Fantasy,chapters,420,550,SS+,ongoing,,,',
+    ];
+    triggerDownload(rows.join('\r\n'), 'rtapps_import_template.csv', 'text/csv');
+  }
+  showToast('📋', 'Template downloaded');
+}
+
+/* ── IMPORT ────────────────────────────────── */
+let importQueue = [];
+
+function openImportModal() {
+  clearImport();
+  document.getElementById('importError').style.display = 'none';
+  document.getElementById('importModal').classList.add('open');
+}
+
+function clearImport() {
+  importQueue = [];
+  document.getElementById('importPreview').classList.remove('visible');
+  document.getElementById('importTableBody').innerHTML = '';
+  document.getElementById('importCount').textContent = '0';
+  document.getElementById('importConfirmBtn').disabled = true;
+  document.getElementById('importFileInput').value = '';
+  document.getElementById('importProgressBar').style.display = 'none';
+  document.getElementById('importProgressFill').style.width = '0%';
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  document.getElementById('dropZone').classList.add('dragover');
+}
+
+function handleDragLeave(e) {
+  document.getElementById('dropZone').classList.remove('dragover');
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('dropZone').classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) handleFileSelect(file);
+}
+
+function handleFileSelect(file) {
+  if (!file) return;
+  const errEl = document.getElementById('importError');
+  errEl.style.display = 'none';
+
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (!['json','csv'].includes(ext)) {
+    errEl.textContent = '⚠ Only .json and .csv files are supported.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const text = e.target.result;
+      let entries = [];
+
+      if (ext === 'json') {
+        const parsed = JSON.parse(text);
+        // Support both bare array and {entries:[...]} wrapper
+        entries = Array.isArray(parsed) ? parsed
+                : Array.isArray(parsed.entries) ? parsed.entries
+                : [];
+        if (!entries.length) throw new Error('No entries array found in JSON.');
+      } else {
+        entries = parseCSV(text);
+      }
+
+      // Validate — must have title and content_type
+      const valid = entries.filter(e => e.title && e.content_type);
+      const invalid = entries.length - valid.length;
+
+      if (!valid.length) {
+        throw new Error('No valid entries found. Each row needs at least "title" and "content_type".');
+      }
+
+      importQueue = valid;
+      renderImportPreview(valid, invalid);
+
+    } catch (err) {
+      errEl.textContent = '⚠ ' + err.message;
+      errEl.style.display = 'block';
+    }
+  };
+  reader.readAsText(file);
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/);
+  if (lines.length < 2) return [];
+
+  // Parse header
+  const headers = parseCSVRow(lines[0]);
+  const entries = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    const vals = parseCSVRow(lines[i]);
+    const obj  = {};
+    headers.forEach((h, idx) => { obj[h.trim()] = vals[idx] ?? ''; });
+    // Coerce numerics
+    if (obj.progress) obj.progress = parseInt(obj.progress) || 0;
+    if (obj.total)    obj.total    = parseInt(obj.total)    || 0;
+    entries.push(obj);
+  }
+  return entries;
+}
+
+function parseCSVRow(line) {
+  const result = [];
+  let cur = '', inQuote = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuote && line[i+1] === '"') { cur += '"'; i++; }
+      else inQuote = !inQuote;
+    } else if (ch === ',' && !inQuote) {
+      result.push(cur); cur = '';
+    } else {
+      cur += ch;
+    }
+  }
+  result.push(cur);
+  return result;
+}
+
+function renderImportPreview(entries, skipped) {
+  const tbody = document.getElementById('importTableBody');
+  tbody.innerHTML = '';
+
+  entries.slice(0, 100).forEach((e, idx) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="color:var(--muted)">${idx + 1}</td>
+      <td title="${e.title}">${e.title}</td>
+      <td>${e.content_type || '—'}</td>
+      <td>${e.subtype || '—'}</td>
+      <td>${e.rating || '—'}</td>
+      <td>${e.progress ?? 0}${e.total ? '/' + e.total : ''}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  if (entries.length > 100) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td colspan="6" style="color:var(--muted);text-align:center;padding:10px">
+      … and ${entries.length - 100} more entries
+    </td>`;
+    tbody.appendChild(tr);
+  }
+
+  document.getElementById('importCount').textContent = entries.length;
+  document.getElementById('importPreview').classList.add('visible');
+  document.getElementById('importConfirmBtn').disabled = false;
+
+  if (skipped > 0) {
+    showToast('⚠', `${skipped} rows skipped — missing title or type`);
+  }
+}
+
+async function confirmImport() {
+  if (!importQueue.length) return;
+
+  const btn      = document.getElementById('importConfirmBtn');
+  const bar      = document.getElementById('importProgressBar');
+  const fill     = document.getElementById('importProgressFill');
+
+  btn.disabled = true;
+  btn.textContent = 'Importing…';
+  bar.style.display = 'block';
+
+  let success = 0, failed = 0;
+
+  for (let i = 0; i < importQueue.length; i++) {
+    const entry = importQueue[i];
+    const pct = Math.round(((i + 1) / importQueue.length) * 100);
+    fill.style.width = pct + '%';
+
+    try {
+      const payload = {
+        title:         entry.title,
+        content_type:  entry.content_type,
+        subtype:       entry.subtype       || '',
+        subtype_tag:   entry.subtype_tag   || '',
+        progress_type: entry.progress_type || 'chapters',
+        progress:      parseInt(entry.progress) || 0,
+        total:         parseInt(entry.total)    || 0,
+        rating:        entry.rating        || '',
+        status:        entry.status        || 'ongoing',
+        source_url:    entry.source_url    || '',
+        image_url:     entry.image_url     || '',
+        synopsis:      entry.synopsis      || '',
+      };
+
+      const res = await fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) success++;
+      else failed++;
+    } catch {
+      failed++;
+    }
+  }
+
+  btn.textContent = 'Import Entries';
+  closeModal('importModal');
+  clearImport();
+  load();
+
+  if (failed === 0) {
+    showToast('✅', `Imported ${success} entries successfully`);
+  } else {
+    showToast('⚠', `${success} imported, ${failed} failed`);
+  }
+}
+
+/* ── INIT ──────────────────────────────────── */
+load();
+</script>
+</body>
+</html>
